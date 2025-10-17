@@ -42,22 +42,6 @@ jobs:
           echo "Running mock deployment..."
           docker run --rm ${{ env.IMAGE }} 2 3
 
-      - name: Download CI artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: test-results
-          run-id: ${{ github.event.workflow_run.id }}
-
-      - name: Extract coverage and test results
-        id: results
-        run: |
-          COV=$(grep -oPm1 "(?<=<coverage.*line-rate=\")[0-9.]+" coverage.xml || echo "N/A")
-          TESTS=$(grep -oPm1 "(?<=tests=)[0-9]+" junit.xml || echo "N/A")
-          FAILURES=$(grep -oPm1 "(?<=failures=)[0-9]+" junit.xml || echo "N/A")
-          echo "COVERAGE=$COV" >> $GITHUB_ENV
-          echo "TESTS=$TESTS" >> $GITHUB_ENV
-          echo "FAILURES=$FAILURES" >> $GITHUB_ENV
-
       - name: Comment PR
         if: ${{ github.event.workflow_run.event == 'pull_request' }}
         uses: marocchino/sticky-pull-request-comment@v2
@@ -67,7 +51,5 @@ jobs:
             **Mock Deployment completed successfully**
 
             - Docker image: `${{ env.IMAGE }}`
-            - Tests run: ${{ env.TESTS }} | Failures: ${{ env.FAILURES }}
-            - Coverage: ${{ env.COVERAGE }}
             - Command: `docker run --rm ${{ env.IMAGE }} 2 3`
             - Status: Success

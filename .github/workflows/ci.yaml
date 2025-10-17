@@ -50,7 +50,7 @@ jobs:
       - name: Upload test results
         uses: actions/upload-artifact@v4
         with:
-          name: test-results-${{ matrix.python-version }}
+          name: test-results
           path: |
             junit.xml
             coverage.xml
@@ -87,14 +87,6 @@ jobs:
           format: table
           exit-code: 0
 
-      - name: Upload build info
-        uses: actions/upload-artifact@v4
-        with:
-          name: docker-build-info
-          path: |
-            Dockerfile
-            scripts/
-
   pr-comment:
     name: Comment PR Summary
     runs-on: ubuntu-latest
@@ -102,22 +94,18 @@ jobs:
     needs: [docker]
 
     steps:
-      - name: Download coverage artifact
+      - name: Download test artifacts
         uses: actions/download-artifact@v4
         with:
-          name: test-results-3.12
+          name: test-results
 
-      - name: Extract coverage
-        id: coverage
+      - name: Extract coverage and test results
+        id: results
         run: |
           COV=$(grep -oPm1 "(?<=<coverage.*line-rate=\")[0-9.]+" coverage.xml || echo "N/A")
-          echo "COVERAGE=$COV" >> $GITHUB_ENV
-
-      - name: Extract test results summary
-        id: tests
-        run: |
           TESTS=$(grep -oPm1 "(?<=tests=)[0-9]+" junit.xml || echo "N/A")
           FAILURES=$(grep -oPm1 "(?<=failures=)[0-9]+" junit.xml || echo "N/A")
+          echo "COVERAGE=$COV" >> $GITHUB_ENV
           echo "TESTS=$TESTS" >> $GITHUB_ENV
           echo "FAILURES=$FAILURES" >> $GITHUB_ENV
 
