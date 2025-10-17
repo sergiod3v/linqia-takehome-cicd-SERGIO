@@ -113,6 +113,14 @@ jobs:
           COV=$(grep -oPm1 "(?<=<coverage.*line-rate=\")[0-9.]+" coverage.xml || echo "N/A")
           echo "COVERAGE=$COV" >> $GITHUB_ENV
 
+      - name: Extract test results summary
+        id: tests
+        run: |
+          TESTS=$(grep -oPm1 "(?<=tests=)[0-9]+" junit.xml || echo "N/A")
+          FAILURES=$(grep -oPm1 "(?<=failures=)[0-9]+" junit.xml || echo "N/A")
+          echo "TESTS=$TESTS" >> $GITHUB_ENV
+          echo "FAILURES=$FAILURES" >> $GITHUB_ENV
+
       - name: Post PR comment
         uses: marocchino/sticky-pull-request-comment@v2
         with:
@@ -121,6 +129,7 @@ jobs:
             **CI Pipeline completed successfully**
 
             - Python versions tested: 3.10, 3.11, 3.12  
-            - Coverage: ${{ env.COVERAGE }}
-            - Docker image: `${{ env.IMAGE }}`
+            - Coverage: ${{ env.COVERAGE }}  
+            - Tests run: ${{ env.TESTS }} | Failures: ${{ env.FAILURES }}  
+            - Docker image: `${{ env.IMAGE }}`  
             - [Artifacts](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
