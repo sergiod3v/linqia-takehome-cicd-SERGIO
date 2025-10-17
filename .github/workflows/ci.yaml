@@ -50,7 +50,7 @@ jobs:
       - name: Upload test results
         uses: actions/upload-artifact@v4
         with:
-          name: test-results
+          name: test-results-${{ matrix.python-version }}
           path: |
             junit.xml
             coverage.xml
@@ -94,10 +94,10 @@ jobs:
     needs: [docker]
 
     steps:
-      - name: Download test artifacts
+      - name: Download test artifact for Python 3.12
         uses: actions/download-artifact@v4
         with:
-          name: test-results
+          name: test-results-3.12
 
       - name: Extract coverage and test results
         id: results
