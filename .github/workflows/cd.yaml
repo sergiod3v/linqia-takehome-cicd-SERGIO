@@ -48,7 +48,7 @@ jobs:
         with:
           header: "CD Summary"
           message: |
-            🚀 **Deployment completed successfully**
+            **Deployment completed successfully**
             - Image: `${{ env.IMAGE }}`
             - Command: `docker run --rm ${{ env.IMAGE }} 2 3`
-            - Status: ✅ Success
+            - Status: Success

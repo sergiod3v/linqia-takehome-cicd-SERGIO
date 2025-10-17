@@ -118,9 +118,9 @@ jobs:
         with:
           header: "CI Summary"
           message: |
-            ✅ **CI Pipeline completed successfully**
+            **CI Pipeline completed successfully**
 
-            - 🐍 Python versions tested: 3.10, 3.11, 3.12  
-            - 🧪 Coverage: ${{ env.COVERAGE }}
-            - 📦 Docker image: `${{ env.IMAGE }}`
-            - 📁 [Artifacts](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+            - Python versions tested: 3.10, 3.11, 3.12  
+            - Coverage: ${{ env.COVERAGE }}
+            - Docker image: `${{ env.IMAGE }}`
+            - [Artifacts](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
