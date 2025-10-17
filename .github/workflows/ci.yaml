@@ -114,7 +114,7 @@ jobs:
           echo "COVERAGE=$COV" >> $GITHUB_ENV
 
       - name: Post PR comment
-        uses: marocchino/sticky-pull-request-comment@v3
+        uses: marocchino/sticky-pull-request-comment@v2
         with:
           header: "CI Summary"
           message: |
