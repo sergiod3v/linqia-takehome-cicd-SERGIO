@@ -109,7 +109,7 @@ jobs:
           echo "TESTS=$TESTS" >> $GITHUB_ENV
           echo "FAILURES=$FAILURES" >> $GITHUB_ENV
 
-      - name: Post PR comment
+      - name: Post PR comment S
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           header: "CI Summary"
